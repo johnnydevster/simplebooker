@@ -3,5 +3,23 @@
 .simplebooker-main {
     background-color: rgb(219, 219, 219);
     width: 20rem;
-    display: flex;
+    height: 20rem;
+    
+    margin: auto;
+}
+
+.datenumbers-container {
+    background-color: grey;
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-gap: 5px;
+    padding: 5px;
+}
+
+.datenumbers {
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
