@@ -2,13 +2,19 @@ import './App.scss';
 
 function App() {
 
-  const randomArray = [...Array(31).keys()];
-  console.log(randomArray);
+  const getDaysInMonth = function(month, year) {
+    return new Date(year, month, 0).getDate();
+  };
+  
+  const dateArray = [];
+  for (var i = 1; i <= getDaysInMonth(6, 2021); i++) { //replace with chosen month and year
+    dateArray.push(i);
+  }
 
   return (
     <div className="simplebooker-main">
       <div className="datenumbers-container">
-        {randomArray.map(item => {
+        {dateArray.map(item => {
           return (
             <div className="datenumbers">{item}</div>
           )

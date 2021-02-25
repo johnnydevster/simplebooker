@@ -1,25 +1,37 @@
-
+* {
+    box-sizing: border-box;
+}
 
 .simplebooker-main {
-    background-color: rgb(219, 219, 219);
+    background-color: rgb(240, 240, 240);
     width: 20rem;
-    height: 20rem;
-    
+    height: 15rem;
+    box-shadow: 2px 2px 7px #f0f0f0;
     margin: auto;
 }
 
 .datenumbers-container {
-    background-color: grey;
+    background-color: rgb(255, 255, 255);
     display: grid;
     height: 100%;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    grid-gap: 5px;
+    
     padding: 5px;
 }
 
 .datenumbers {
-   display: flex;
-   justify-content: center;
-   align-items: center;
+    color: rgb(110, 110, 110);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    &:hover {
+        color: rgb(29, 29, 29);
+        background-color: rgb(250, 250, 250);
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+
 }
