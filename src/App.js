@@ -1,4 +1,5 @@
 import './App.scss';
+import YearMonthPicker from './YearMonthPicker';
 
 function App() {
 
@@ -7,12 +8,13 @@ function App() {
   };
   
   const dateArray = [];
-  for (var i = 1; i <= getDaysInMonth(6, 2021); i++) { //replace with chosen month and year
+  for (var i = 1; i <= getDaysInMonth(3, 2021); i++) { //replace with chosen month and year
     dateArray.push(i);
   }
 
   return (
     <div className="simplebooker-main">
+      <YearMonthPicker />
       <div className="datenumbers-container">
         {dateArray.map(item => {
           return (
