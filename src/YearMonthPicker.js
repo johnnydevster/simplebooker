@@ -1,24 +1,26 @@
 import React, {useState} from 'react';
 
 function YearMonthPicker() {
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "Oktober", "November", "December"
+  ]
+
   const [showDropdown, setShowdropdown] = useState(false);
+  const [chosenMonth, setChosenMonth] = useState(monthNames[new Date().getMonth()])
+
+ 
 
   return (
-    <div className="dropdown">
-    <button onClick={() => setShowdropdown(!showDropdown)} className="dropbtn">Month</button>
-      <div id="myDropdown" className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
-        <a href="#">January</a>
-        <a href="#">February</a>
-        <a href="#">March</a>
-        <a href="#">April</a>
-        <a href="#">May</a>
-        <a href="#">June</a>
-        <a href="#">July</a>
-        <a href="#">August</a>
-        <a href="#">September</a>
-        <a href="#">Oktober</a>
-        <a href="#">November</a>
-        <a href="#">December</a>
+    <div className="buttons-container">
+      <div className="dropdown">
+        <button onClick={() => setShowdropdown(!showDropdown)} className="dropbtn">{chosenMonth}</button>
+        <div id="myDropdown" className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
+          <ul>
+            {monthNames.map((month, index) => {
+              return <li key={index}>{month}</li>
+            })}
+          </ul>
+        </div>
       </div>
     </div>
   )
