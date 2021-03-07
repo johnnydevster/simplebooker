@@ -1,23 +1,15 @@
-import React, {useState} from 'react';
 
-function YearMonthPicker() {
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June", "July", "August", "September", "Oktober", "November", "December"
-  ]
 
-  const [showDropdown, setShowdropdown] = useState(false);
-  const [chosenMonth, setChosenMonth] = useState(monthNames[new Date().getMonth()])
-
- 
-
+function YearMonthPicker(props) {
+  
   return (
     <div className="buttons-container">
       <div className="dropdown">
-        <button onClick={() => setShowdropdown(!showDropdown)} className="dropbtn">{chosenMonth}</button>
-        <div id="myDropdown" className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
+        <button onClick={() => props.setShowdropdown(!props.showDropdown)} className="dropbtn">{props.chosenMonth}</button>
+        <div id="myDropdown" className={`dropdown-content ${props.showDropdown ? 'show' : ''}`}>
           <ul>
-            {monthNames.map((month, index) => {
-              return <li key={index}>{month}</li>
+            {props.monthNames.map((month, index) => {
+              return <li key={index} value={index} onClick={(e) => props.setChosenMonth(props.monthNames[e.target.value])}>{month}</li>
             })}
           </ul>
         </div>
