@@ -5,7 +5,7 @@ import YearMonthPicker from './YearMonthPicker';
 function App() {
   const monthNames = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-  ]
+  ];
 
   const [showDropdown, setShowdropdown] = useState(false);
   const [chosenMonth, setChosenMonth] = useState(monthNames[new Date().getMonth()]);
@@ -19,10 +19,6 @@ function App() {
   for (var i = 1; i <= getDaysInMonth(monthNames.indexOf(chosenMonth) + 1, 2021); i++) { //replace with chosen month and year
     dateArray.push(i);
   }
-
-  useEffect(() => {
-    console.log(chosenDate)
-  })
 
   return (
     <div className="simplebooker-main">
