@@ -68,6 +68,9 @@ ul {
     border: none;
     cursor: pointer;
     width: 6rem;
+    .yearpicker {
+      background-color:rgb(110, 110, 110);
+    }
   }
   
   /* Dropdown button on hover & focus */
@@ -75,8 +78,18 @@ ul {
     background-color: #2980B9;
   }
   
+  /* Container for year and month picker buttons */
+  .yearmonth-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .yearpicker {
+    margin: auto;
+  }
+
   /* Container for all month buttons */
-  .buttons-container {
+  .monthbuttons-container {
     display: flex;
     justify-content: center;
     align-items: center;

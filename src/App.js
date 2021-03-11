@@ -1,5 +1,6 @@
 import './App.scss';
 import React, {useState, useEffect} from 'react';
+import YearPicker from './YearPicker';
 import YearMonthPicker from './YearMonthPicker';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
   ];
 
   const [showDropdown, setShowdropdown] = useState(false);
+  const [chosenYear, setChosenYear] = useState(new Date().getFullYear());
   const [chosenMonth, setChosenMonth] = useState(monthNames[new Date().getMonth()]);
   const [chosenDate, setChosenDate] = useState();
 
@@ -16,20 +18,26 @@ function App() {
   };
   
   const dateArray = [];
-  for (var i = 1; i <= getDaysInMonth(monthNames.indexOf(chosenMonth) + 1, 2021); i++) { //replace with chosen month and year
+  for (var i = 1; i <= getDaysInMonth(monthNames.indexOf(chosenMonth) + 1, chosenYear); i++) { //replace with chosen month and year
     dateArray.push(i);
   }
 
   return (
     <div className="simplebooker-main">
-      <YearMonthPicker 
-        monthNames={monthNames}
-        showDropdown={showDropdown}
-        setShowdropdown={setShowdropdown}
-        chosenMonth={chosenMonth}
-        setChosenMonth={setChosenMonth}
-        setChosenDate={setChosenDate}
+      <div className="yearmonth-container">
+        <YearPicker
+          chosenYear={chosenYear} />
+        <YearMonthPicker
+          monthNames={monthNames}
+          showDropdown={showDropdown}
+          setShowdropdown={setShowdropdown}
+          chosenYear={chosenYear}
+          chosenMonth={chosenMonth}
+          setChosenYear={setChosenYear}
+          setChosenMonth={setChosenMonth}
+          setChosenDate={setChosenDate}
         />
+      </div>
       <div className="datenumbers-container">
         {dateArray.map(date => {
           return (

@@ -16,6 +16,7 @@ function YearMonthPicker(props) {
       props.setChosenMonth(props.monthNames[props.monthNames.indexOf(props.chosenMonth) - 1]);
     } else {
       props.setChosenMonth(props.monthNames[11]);
+      props.setChosenYear(props.chosenYear - 1);
     }
   }
 
@@ -24,6 +25,7 @@ function YearMonthPicker(props) {
       props.setChosenMonth(props.monthNames[props.monthNames.indexOf(props.chosenMonth) + 1]);
     } else {
       props.setChosenMonth(props.monthNames[0]);
+      props.setChosenYear(props.chosenYear + 1);
     }
   }
 
@@ -36,7 +38,7 @@ function YearMonthPicker(props) {
   }, []);
 
   return (
-    <div className="buttons-container">
+    <div className="monthbuttons-container">
       <div className="iconcontainer" onClick={handleLeftArrow}><i className="fa fa-angle-left"></i></div>
       <div className="dropdown" ref={node}>
         <button onClick={() => props.setShowdropdown(!props.showDropdown)} className="dropbtn">{props.chosenMonth}</button>
