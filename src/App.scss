@@ -68,8 +68,15 @@ ul {
     border: none;
     cursor: pointer;
     width: 6rem;
-    .yearpicker {
-      background-color:rgb(110, 110, 110);
+  }
+
+  .yearpicker {
+    @extend .dropbtn;
+    background-color: transparent;
+    color: black;
+    font-size: 0.9rem;
+    &:hover, &:focus {
+      background-color: rgb(236, 236, 236) !important;
     }
   }
   
