@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-function YearMonthPicker(props) {
+function MonthPicker(props) {
   const node = React.useRef();
 
   const handleClickOutside = e => {
@@ -61,4 +61,4 @@ function YearMonthPicker(props) {
 
 //https://www.w3schools.com/howto/howto_js_dropdown.asp//
 
-export default YearMonthPicker;
+export default MonthPicker;
