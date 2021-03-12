@@ -134,3 +134,36 @@ ul {
   
   /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
   .show {display:block;}
+
+
+
+
+  /* ----------- Style rules for main booking app below ------------ */
+
+  .booking-main {
+    display: flex;
+    align-items: center;
+    background-color: rgb(189, 189, 189);
+    width: 900px;
+    margin: auto;
+  }
+
+  .activity-header {
+   width: 200px;
+   padding: 8px;
+  }
+
+  .times-header {
+    display: flex;
+    
+    margin: 0;
+    > * {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(236, 236, 236);
+      width: 39px;
+      height: 39px;
+      
+    }
+  }
