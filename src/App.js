@@ -9,6 +9,7 @@ function App() {
   ];
 
   const [showDropdown, setShowdropdown] = useState(false);
+  const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [chosenYear, setChosenYear] = useState(new Date().getFullYear());
   const [chosenMonth, setChosenMonth] = useState(monthNames[new Date().getMonth()]);
   const [chosenDate, setChosenDate] = useState();
@@ -16,6 +17,11 @@ function App() {
   const getDaysInMonth = function(month, year) {
     return new Date(year, month, 0).getDate();
   };
+
+  const yearList = [];
+  for (var i = new Date().getFullYear(); i <= new Date().getFullYear() + 10; i++) {
+    yearList.push(i);
+  }
   
   const dateArray = [];
   for (var i = 1; i <= getDaysInMonth(monthNames.indexOf(chosenMonth) + 1, chosenYear); i++) { //replace with chosen month and year
@@ -26,7 +32,13 @@ function App() {
     <div className="simplebooker-main">
       <div className="yearmonth-container">
         <YearPicker
-          chosenYear={chosenYear} />
+          chosenYear={chosenYear}
+          setChosenYear={setChosenYear}
+          setChosenDate={setChosenDate}
+          yearList={yearList}
+          showYearDropdown={showYearDropdown}
+          setShowYearDropdown={setShowYearDropdown} />
+          
         <YearMonthPicker
           monthNames={monthNames}
           showDropdown={showDropdown}
