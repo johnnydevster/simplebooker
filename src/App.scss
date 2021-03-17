@@ -141,29 +141,52 @@ ul {
   /* ----------- Style rules for main booking app below ------------ */
 
   .booking-main {
-    display: flex;
-    align-items: center;
-    background-color: rgb(189, 189, 189);
     width: 900px;
     margin: auto;
   }
 
-  .activity-header {
-   width: 200px;
+  .headers-row, .activity-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(189, 189, 189);
+  }
+
+  .activity-header, .activity {
+   width: 100%;
    padding: 8px;
   }
 
   .times-header {
-    display: flex;
-    
+    display: flex;    
     margin: 0;
+
     > * {
+      font-size: 0.9rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgb(236, 236, 236);
+      background-color: rgb(241, 241, 241);
       width: 39px;
       height: 39px;
+      border: 0.5px solid rgb(219, 219, 219);
+      
+    }
+  }
+
+  .time-row {
+    display: flex;    
+    margin: 0;
+    
+    > * {
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(253, 253, 253);
+      width: 39px;
+      height: 39px;
+      border-right: 0.5px solid rgb(240, 240, 240);
       
     }
   }
