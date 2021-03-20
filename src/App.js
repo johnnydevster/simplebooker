@@ -30,6 +30,7 @@ function App() {
           }) }
         </div>
       </div>
+      <div className="main-grid-container">
       { activities.map(activity => {
         return (
           <div className="activity-container">
@@ -46,6 +47,7 @@ function App() {
           </div>
           )
       }) }
+      </div>
     </div>
 
   );

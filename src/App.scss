@@ -1,3 +1,20 @@
+
+
+/* Border thickness of containers here */
+$times-header-border-thickness: 1.5px;
+$main-grid-container-border-thickness: 1px;
+
+$times-header-border: $times-header-border-thickness solid rgb(196, 196, 196);
+$main-grid-container-border: $main-grid-container-border-thickness solid rgb(219, 219, 219);
+
+$border-margin-offset: $times-header-border-thickness - $main-grid-container-border-thickness;
+
+/* Color for headers */
+$times-header-color: rgb(253, 253, 253);
+$activity-header-color: rgb(255, 255, 255);
+
+
+
 @mixin highlightDate() {
   color: rgb(29, 29, 29);
   background-color: rgb(245, 245, 245);
@@ -8,6 +25,7 @@
 
 * {
   box-sizing: border-box;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 ul {
@@ -143,25 +161,50 @@ ul {
   .booking-main {
     width: 900px;
     margin: 20px auto;
+    box-shadow: 2px 2px 7px #f0f0f0;
   }
 
-  .headers-row, .activity-container {
+  .headers-row  {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
+  }
+
+  .activity-container {
+    @extend .headers-row;
+    border-bottom: 0.5px solid rgb(240, 240, 240);
+    height: 100%;
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   .activity-header, .activity {
+   font-size: 0.9rem;
+   padding: 0 10px;
    width: 100%;
-   padding: 8px;
+  }
+
+  .activity {
+    display: flex;
+    align-items: center;
+    background-color: $activity-header-color;
+    height: 39px;
+    
   }
 
   .times-header {
     display: flex;    
     margin: 0;
-    border: 1.5px solid rgb(196, 196, 196);
+    border-top: $times-header-border;
+    border-left: $times-header-border;
+    border-right: $times-header-border;
+    background-color: $times-header-color;
+  }
 
-    
+  .main-grid-container {
+    border: $main-grid-container-border;
     
   }
 
@@ -170,32 +213,29 @@ ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 39px;
-    height: 39px;
+    min-width: 39px;
+    min-height: 39px;
     border-left: 0.5px solid rgb(238, 238, 238);
 
     &:first-child {
       border-left: none;
     }
-    
   }
 
   .time-row {
-    display: flex;    
-    
+    display: flex;
+    margin: 0 $border-margin-offset;
     
    
   }
 
-
   .bookcell {
-    
     font-size: 0.9rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 39px;
-    height: 39px;
-    border-left: 0.5px solid rgb(240, 240, 240);
     
+    min-width: 39px;
+    min-height: 39px;
+    border-left: 0.5px solid rgb(240, 240, 240);
   }
