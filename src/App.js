@@ -13,14 +13,16 @@ function App() {
     "Room 1",
     "Room 2",
     "Room 3",
-    "Room 4"
+    "Room 4",
+    "Room 5",
+    "Room 6",
+    "Room 10"
   ]
 
   return (
     <div className="booking-main">
       <div className="headers-row">
         <div className="activity-header">
-          <span>Name of activity here</span>
         </div>
         <div className="times-header">
           { bookableTimes.map((time) => {
@@ -32,13 +34,15 @@ function App() {
         return (
           <div className="activity-container">
             <div className="activity">
-              {activity}
+              { activity }
             </div>
+            
             <div className="time-row">
-              {bookableTimes.map((time) => {
-                return <div className="timecell"></div>
-              })}
+              { bookableTimes.map((time) => {
+                return <div className="bookcell"></div>
+              }) }
             </div>
+           
           </div>
           )
       }) }
@@ -48,12 +52,3 @@ function App() {
 }
 
 export default App;
-
-/* <div className="activity-row">
-        {activities.map((activity) => {
-          return <div className="activity">{activity}</div>
-        })}
-      </div>
-      <div className="time-row">
-
-      </div> */

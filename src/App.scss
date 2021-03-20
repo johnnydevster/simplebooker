@@ -142,14 +142,13 @@ ul {
 
   .booking-main {
     width: 900px;
-    margin: auto;
+    margin: 20px auto;
   }
 
   .headers-row, .activity-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: rgb(189, 189, 189);
   }
 
   .activity-header, .activity {
@@ -160,33 +159,43 @@ ul {
   .times-header {
     display: flex;    
     margin: 0;
+    border: 1.5px solid rgb(196, 196, 196);
 
-    > * {
-      font-size: 0.9rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgb(241, 241, 241);
-      width: 39px;
-      height: 39px;
-      border: 0.5px solid rgb(219, 219, 219);
-      
+    
+    
+  }
+
+  .timecell {
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 39px;
+    height: 39px;
+    border-left: 0.5px solid rgb(238, 238, 238);
+
+    &:first-child {
+      border-left: none;
     }
+    
   }
 
   .time-row {
     display: flex;    
-    margin: 0;
     
-    > * {
-      font-size: 0.9rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgb(253, 253, 253);
-      width: 39px;
-      height: 39px;
-      border-right: 0.5px solid rgb(240, 240, 240);
-      
-    }
+    
+   
+  }
+
+
+  .bookcell {
+    
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 39px;
+    height: 39px;
+    border-left: 0.5px solid rgb(240, 240, 240);
+    
   }
