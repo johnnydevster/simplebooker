@@ -16,7 +16,8 @@ function App() {
     "Room 4",
     "Room 5",
     "Room 6",
-    "Room 10"
+    "Room 10",
+    "Court 1"
   ]
 
   return (

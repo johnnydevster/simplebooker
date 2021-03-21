@@ -13,7 +13,7 @@ function Calendar() {
 
   const [showDropdown, setShowdropdown] = useState(false);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
-  const [chosenYear, setChosenYear] = useState(new Date().getFullYear());
+  const [chosenYear, setChosenYear] = useState(currentYear);
   const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
   const [chosenDate, setChosenDate] = useState();
 
@@ -22,7 +22,7 @@ function Calendar() {
   };
 
   const yearList = [];
-  for (var i = new Date().getFullYear(); i <= new Date().getFullYear() + 10; i++) {
+  for (var i = currentYear; i <= currentYear + 10; i++) {
     yearList.push(i);
   }
   
@@ -55,6 +55,15 @@ function Calendar() {
           setChosenMonth={setChosenMonth}
           setChosenDate={setChosenDate}
         />
+      </div>
+      <div className="day-headers">
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+        <div className="sunday">Sun</div>
       </div>
       <div className="datenumbers-container">
         {dateArray.map(date => {
