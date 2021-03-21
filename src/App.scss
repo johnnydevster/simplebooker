@@ -8,6 +8,7 @@ $times-header-border: $times-header-border-thickness solid rgb(196, 196, 196);
 $main-grid-container-border: $main-grid-container-border-thickness solid rgb(219, 219, 219);
 
 $border-margin-offset: $times-header-border-thickness - $main-grid-container-border-thickness;
+$border-radius-value: 6px;
 
 /* Color for headers */
 $times-header-color: rgb(253, 253, 253);
@@ -71,6 +72,15 @@ ul {
         @include highlightDate();
     }
 
+}
+
+.todays-date {
+  color: black;
+  font-weight: bold;
+}
+
+.passed-date {
+  color: rgb(196, 196, 196);
 }
 
 .highlight {
@@ -162,17 +172,23 @@ ul {
     width: 900px;
     margin: 20px auto;
     box-shadow: 2px 2px 7px #f0f0f0;
+    border-radius: $border-radius-value;
   }
 
   .headers-row  {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+    border-top: $times-header-border;
+    border-left: $times-header-border;
+    border-right: $times-header-border;
+    border-radius: $border-radius-value $border-radius-value 0 0;
   }
 
   .activity-container {
-    @extend .headers-row;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 0.5px solid rgb(240, 240, 240);
     height: 100%;
     &:last-child {
@@ -195,17 +211,14 @@ ul {
   }
 
   .times-header {
-    display: flex;    
+    display: flex;
     margin: 0;
-    border-top: $times-header-border;
-    border-left: $times-header-border;
-    border-right: $times-header-border;
     background-color: $times-header-color;
   }
 
   .main-grid-container {
     border: $main-grid-container-border;
-    
+    border-radius: 0 0 $border-radius-value $border-radius-value;
   }
 
   .timecell {
@@ -217,9 +230,6 @@ ul {
     min-height: 39px;
     border-left: 0.5px solid rgb(238, 238, 238);
 
-    &:first-child {
-      border-left: none;
-    }
   }
 
   .time-row {

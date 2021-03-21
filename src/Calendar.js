@@ -7,10 +7,14 @@ function Calendar() {
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ];
 
+  const currentDate = new Date().getDate();
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+
   const [showDropdown, setShowdropdown] = useState(false);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [chosenYear, setChosenYear] = useState(new Date().getFullYear());
-  const [chosenMonth, setChosenMonth] = useState(monthNames[new Date().getMonth()]);
+  const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
   const [chosenDate, setChosenDate] = useState();
 
   const getDaysInMonth = function(month, year) {
@@ -26,6 +30,10 @@ function Calendar() {
   for (var i = 1; i <= getDaysInMonth(monthNames.indexOf(chosenMonth) + 1, chosenYear); i++) { //replace with chosen month and year
     dateArray.push(i);
   }
+
+  useEffect(() => {
+    
+  })
 
   return (
     <div className="calendar-main">
@@ -51,7 +59,12 @@ function Calendar() {
       <div className="datenumbers-container">
         {dateArray.map(date => {
           return (
-            <div className={`datenumbers${parseInt(chosenDate, 10) === date ? ' highlight' : ''}`} onClick={(e) => {setChosenDate(e.target.innerHTML)}} >{date}</div>
+            <div className={
+              `datenumbers
+              ${chosenDate === date ? ' highlight' : ''}
+              ${(date === currentDate && monthNames.indexOf(chosenMonth) === currentMonth && chosenYear === currentYear) ? ' todays-date' : ''}
+              ${(date < currentDate && monthNames.indexOf(chosenMonth) === currentMonth && chosenYear === currentYear) || (chosenYear <= currentYear && monthNames.indexOf(chosenMonth) < currentMonth) || chosenYear < currentYear ? 'passed-date' : ''}`
+            } onClick={(e) => {setChosenDate(parseInt(e.target.innerHTML, 10))}} >{date}</div>
           )
         })}
       </div>

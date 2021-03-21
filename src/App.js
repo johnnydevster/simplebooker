@@ -48,6 +48,7 @@ function App() {
           )
       }) }
       </div>
+      <Calendar />
     </div>
 
   );
