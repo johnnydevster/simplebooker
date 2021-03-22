@@ -14,18 +14,22 @@ function MonthPicker(props) {
   const handleLeftArrow = () => {
     if (props.monthNames.indexOf(props.chosenMonth) > 0) {
       props.setChosenMonth(props.monthNames[props.monthNames.indexOf(props.chosenMonth) - 1]);
+      props.setChosenDate(0);
     } else {
       props.setChosenMonth(props.monthNames[11]);
       props.setChosenYear(props.chosenYear - 1);
+      props.setChosenDate(0);
     }
   }
 
   const handleRightArrow = () => {
     if (props.monthNames.indexOf(props.chosenMonth) < 11) {
       props.setChosenMonth(props.monthNames[props.monthNames.indexOf(props.chosenMonth) + 1]);
+      props.setChosenDate(0);
     } else {
       props.setChosenMonth(props.monthNames[0]);
       props.setChosenYear(props.chosenYear + 1);
+      props.setChosenDate(0);
     }
   }
 
