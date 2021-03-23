@@ -285,11 +285,22 @@ ul {
     border-left: 0.5px solid rgb(240, 240, 240);
     cursor: pointer;
     position: relative;
-
     &:hover {
-      background-color: rgb(164, 217, 108);
+      background-color: rgb(187, 228, 143);
       border-radius: 8px;
     }
+  }
+
+  .bookcell-active {
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 39px;
+    min-height: 39px;
+    border-left: 0.5px solid rgb(240, 240, 240);
+    cursor: pointer;
+    position: relative;
   }
 
   .hidden {
@@ -313,6 +324,7 @@ ul {
     flex-direction: column;
     justify-content: center;
     padding: 5px;
+    border-radius: $border-radius-value;
   }
 
   .time-pick-btn {
@@ -328,16 +340,27 @@ ul {
     }
   }
 
-  .selected-start {
+  .bookit {
+    background-color: #2980B9;
+  }
+
+  .selected-single {
+    background-color: rgb(164, 217, 108);
+    border-radius: 8px;
+  }
+
+  .selected-first {
     background-color: rgb(164, 217, 108);
     border-radius: 8px 0 0 8px;
   }
 
   .selected-middle {
     background-color: rgb(164, 217, 108);
-    border-radius: 8px;
+    border-left: none;
   }
 
   .selected-end {
-
+    background-color: rgb(164, 217, 108);
+    border-radius: 0 8px 8px 0;
+    border-left: none;
   }

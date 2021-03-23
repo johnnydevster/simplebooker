@@ -33,9 +33,16 @@ function App() {
   }
   */
 
+  function handleTimeEndChange(e, time) {
+    e.stopPropagation();
+    setSelectedTimeEnd(time);
+
+  }
+
   function handleBookcellClick(activity, time) {
     setSelectedActivity(activity);
-    setSelectedTimeStart(time);
+    setSelectedTimeStart(parseInt(time));
+    setSelectedTimeEnd(parseInt(time));
   }
 
   useEffect(() => {
@@ -62,13 +69,24 @@ function App() {
             </div>
             <div className="time-row">
               {bookableTimes.map((time) => {
-                const cellIsSelected = (activity === selectedActivity && time === selectedTimeStart);
+
+                const singleCellSelected = (activity === selectedActivity && selectedTimeEnd - selectedTimeStart === 0);
+                const twoCellsSelected = (activity === selectedActivity && selectedTimeEnd - selectedTimeStart === 1);
+                const moreCellsSelected = (activity === selectedActivity && selectedTimeEnd - selectedTimeStart > 1)
+
                 return <div
-                  className={`bookcell${cellIsSelected ? ' selected-middle' : ''}`}
+                  className={`
+                    ${activity === selectedActivity && parseInt(time) === selectedTimeStart ? 'bookcell-active' : 'bookcell'}
+                    ${singleCellSelected && parseInt(time) === selectedTimeStart ? ' selected-single' : ''}
+                    ${(twoCellsSelected || moreCellsSelected) && parseInt(time) === selectedTimeStart && !singleCellSelected ? ' selected-first' : ''}
+                    ${moreCellsSelected && parseInt(time) > selectedTimeStart && time < selectedTimeEnd ? ' selected-middle' : ''}
+                    ${(twoCellsSelected || moreCellsSelected) && parseInt(time) === selectedTimeEnd ? 'selected-end' : ''}`}
                   onClick={() => handleBookcellClick(activity, time)}>
-                  <div className={`time-end-picker${cellIsSelected ? ' visible' : ' hidden'}`}>
-                    <button className="time-pick-btn">1h</button>
-                    <button className="time-pick-btn">2h</button>
+                  <div className={`time-end-picker${activity === selectedActivity && selectedTimeStart === parseInt(time) ? ' visible' : ' hidden'}`}>
+                    <button className="time-pick-btn" onClick={() => setSelectedTimeEnd(selectedTimeStart)}>1h</button>
+                    <button className="time-pick-btn" onClick={(e) => handleTimeEndChange(e, selectedTimeStart + 1)}>2h</button>
+                    <button className="time-pick-btn" onClick={(e) => handleTimeEndChange(e, selectedTimeStart + 2)}>3h</button>
+                    <button className="time-pick-btn bookit">Book it</button>
                   </div>
                 </div>
               })}
@@ -77,7 +95,7 @@ function App() {
           )
       }) }
       </div>
-      {<Calendar />}
+      {/*<Calendar />*/}
     </div>
   );
 }
