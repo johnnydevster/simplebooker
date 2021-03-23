@@ -13,15 +13,21 @@ function App() {
     "Room 1",
     "Room 2",
     "Room 3",
-    "Room 10",
+    "Room 4",
+    "Room 5",
+    "Room 6",
+    "Room 7",
     "Court 1"
   ]
 
   const [selectedActivity, setSelectedActivity] = useState();
-  const [selectedTime, setSelectedTime] = useState();
+  const [selectedTimeStart, setSelectedTimeStart] = useState();
+  const [selectedTimeEnd, setSelectedTimeEnd] = useState(selectedTimeStart);
 
   /*const bookingMatrix = {};
-  -- Probably dont need this --
+
+  -- Probably dont need this, but good way of populating an object --
+
   for (let i of activities) {
     bookingMatrix[i] = bookableTimes;
   }
@@ -29,10 +35,7 @@ function App() {
 
   function handleBookcellClick(activity, time) {
     setSelectedActivity(activity);
-    setSelectedTime(time);
-    console.log(time === selectedTime);
-    console.log(time);
-    console.log(parseInt(time) + 1);
+    setSelectedTimeStart(time);
   }
 
   useEffect(() => {
@@ -58,19 +61,23 @@ function App() {
               { activity }
             </div>
             <div className="time-row">
-              { bookableTimes.map((time) => {
-                return <div 
-                  className={`bookcell${activity === selectedActivity && time === selectedTime ? ' selected' : ''}`}
+              {bookableTimes.map((time) => {
+                const cellIsSelected = (activity === selectedActivity && time === selectedTimeStart);
+                return <div
+                  className={`bookcell${cellIsSelected ? ' selected-middle' : ''}`}
                   onClick={() => handleBookcellClick(activity, time)}>
+                  <div className={`time-end-picker${cellIsSelected ? ' visible' : ' hidden'}`}>
+                    <button className="time-pick-btn">1h</button>
+                    <button className="time-pick-btn">2h</button>
                   </div>
-              }) }
+                </div>
+              })}
             </div>
-           
           </div>
           )
       }) }
       </div>
-      {/*<Calendar />*/}
+      {<Calendar />}
     </div>
   );
 }

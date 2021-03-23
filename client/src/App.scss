@@ -246,6 +246,7 @@ ul {
   }
 
   .times-header {
+    color: grey;
     display: flex;
     margin: 0;
     background-color: $times-header-color;
@@ -283,6 +284,7 @@ ul {
     min-height: 39px;
     border-left: 0.5px solid rgb(240, 240, 240);
     cursor: pointer;
+    position: relative;
 
     &:hover {
       background-color: rgb(164, 217, 108);
@@ -290,7 +292,52 @@ ul {
     }
   }
 
-  .selected {
+  .hidden {
+    visibility: hidden;
+  }
+
+  .booking-window {
+    visibility: visible;
+  }
+
+  .time-end-picker {
+    position: absolute;
+    top: 100%;
+    margin: 5px;
+    min-width: 117px;
+    min-height: 95px;
+    background-color: rgb(238, 238, 238);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+  }
+
+  .time-pick-btn {
+    @extend .dropbtn;
+    font-size: 0.9rem;
+    height: 35px;
+    margin: 5px auto 0;
+    align-items: center;
+    background-color: rgb(97, 187, 0);
+
+    &:last-child {
+      margin: 5px auto;
+    }
+  }
+
+  .selected-start {
+    background-color: rgb(164, 217, 108);
+    border-radius: 8px 0 0 8px;
+  }
+
+  .selected-middle {
     background-color: rgb(164, 217, 108);
     border-radius: 8px;
+  }
+
+  .selected-end {
+
   }
