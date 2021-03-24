@@ -2,6 +2,7 @@ import './App.scss';
 import React, {useState, useEffect} from 'react';
 import Calendar from './Calendar';
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
+import Axios from 'axios';
 
 function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));
@@ -52,7 +53,7 @@ function App() {
 
   const [chosenYear, setChosenYear] = useState(currentYear);
   const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
-  const [chosenDate, setChosenDate] = useState();
+  const [chosenDate, setChosenDate] = useState(currentDate);
 
   /*const bookingMatrix = {};
 
@@ -76,15 +77,25 @@ function App() {
     setSelectedTimeEnd(parseInt(time));
   }
 
-  function handleBooking() {
+  function handleBooking(e) {
+    e.stopPropagation();
     console.log(`
     Selected activity: ${selectedActivity}
-    Selected date: ${chosenYear}-${monthNames.indexOf(chosenMonth)}-${chosenDate}
+    Selected date: ${chosenYear}-${('0' + (monthNames.indexOf(chosenMonth) + 1)).slice(-2)}-${chosenDate}
     Book between: ${selectedTimeStart} - ${selectedTimeEnd}
 
     Username: ${userName}
     User email: ${userEmail}
     Google ID: ${googleId}`);
+
+    const chosenDateFormatted = `${chosenYear}-${('0' + (monthNames.indexOf(chosenMonth) + 1)).slice(-2)}-${chosenDate}`
+    console.log(chosenDateFormatted);
+
+    Axios.get(encodeURI(`http://localhost:3001/api/get?activity=${selectedActivity}&year=${chosenYear}&month=${monthNames.indexOf(chosenMonth) + 1}&date=${chosenDate}&timestart=${selectedTimeStart}&timeend=${selectedTimeEnd}&userName=${userName}&userEmail=${userEmail}&googleId=${googleId}`)).then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   function responseGoogle(response) {
@@ -175,7 +186,7 @@ function App() {
                     <button className="time-pick-btn" onClick={() => setSelectedTimeEnd(selectedTimeStart)}>1h</button>
                     <button className="time-pick-btn" onClick={(e) => handleTimeEndChange(e, selectedTimeStart + 1)}>2h</button>
                     <button className="time-pick-btn" onClick={(e) => handleTimeEndChange(e, selectedTimeStart + 2)}>3h</button>
-                    <button className="time-pick-btn bookit" onClick={() => {handleBooking()}}>Book it</button>
+                    <button className="time-pick-btn bookit" onClick={(e) => {handleBooking(e)}}>Book it</button>
                   </div>
                 </div>
               })}
