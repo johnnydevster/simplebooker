@@ -17,6 +17,9 @@ $activity-header-color: rgb(255, 255, 255);
 /* Color for dropdown btn content */
 $dropdown-content-color: rgb(250, 250, 250);
 
+/* Box shadows */
+$box-shadow: 2px 2px 7px #f0f0f0;
+
 
 
 @mixin highlightDate() {
@@ -51,7 +54,7 @@ ul {
 .calendar-main {
     background-color: rgb(240, 240, 240);
     width: 20rem;
-    box-shadow: 2px 2px 7px #f0f0f0;
+    box-shadow: $box-shadow;
     margin: auto;
 }
 

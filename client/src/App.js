@@ -1,11 +1,26 @@
 import './App.scss';
 import React, {useState, useEffect} from 'react';
 import Calendar from './Calendar';
+import GoogleLogin from 'react-google-login';
+
+function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken;
+}
 
 function App() {
+  const token = getToken();
+
+  const timeStart = 6;
+  const timeEnd = 22;
 
   const bookableTimes = [];
-  for (var i = 6; i <= 22; i++) {
+  for (var i = timeStart; i <= timeEnd; i++) {
     bookableTimes.push(('0' + i).slice(-2));
   }
 
@@ -23,6 +38,8 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState();
   const [selectedTimeStart, setSelectedTimeStart] = useState();
   const [selectedTimeEnd, setSelectedTimeEnd] = useState(selectedTimeStart);
+  const [userName, setUserName] = useState();
+  const [userEmail, setUserEmail] = useState();
 
   /*const bookingMatrix = {};
 
@@ -35,8 +52,9 @@ function App() {
 
   function handleTimeEndChange(e, time) {
     e.stopPropagation();
-    setSelectedTimeEnd(time);
-
+    if (time <= timeEnd) {
+      setSelectedTimeEnd(time);
+    }
   }
 
   function handleBookcellClick(activity, time) {
@@ -45,7 +63,32 @@ function App() {
     setSelectedTimeEnd(parseInt(time));
   }
 
+  function responseGoogle(response) {
+    setToken(response.accessToken);
+    const userName = response.profileObj.givenName + ' ' + response.profileObj.familyName;
+    const userEmail = response.profileObj.email;
+    setUserName(userName);
+    setUserEmail(userEmail);
+  }
+
+  function GoogleLoginButton() {
+    if (!token) {
+      return (
+        <GoogleLogin
+          clientId="1015056177817-7toba522dep62e09vj1oegf05k55ut44.apps.googleusercontent.com"
+          buttonText="Login with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={'single_host_origin'}
+          isSignedIn={true} />
+      )
+    } else {
+      return null;
+    }
+  }
+
   useEffect(() => {
+    console.log(!token);
     
   })
 
@@ -96,6 +139,7 @@ function App() {
       }) }
       </div>
       {/*<Calendar />*/}
+      {<GoogleLoginButton />}
     </div>
   );
 }
