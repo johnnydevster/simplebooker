@@ -1,7 +1,7 @@
 import './App.scss';
 import React, {useState, useEffect} from 'react';
 import Calendar from './Calendar';
-import GoogleLogin from 'react-google-login';
+import {GoogleLogin, GoogleLogout} from 'react-google-login';
 
 function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));
@@ -24,6 +24,14 @@ function App() {
     bookableTimes.push(('0' + i).slice(-2));
   }
 
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+  ];
+
+  const currentDate = new Date().getDate();
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+
   const activities = [
     "Room 1",
     "Room 2",
@@ -40,6 +48,11 @@ function App() {
   const [selectedTimeEnd, setSelectedTimeEnd] = useState(selectedTimeStart);
   const [userName, setUserName] = useState();
   const [userEmail, setUserEmail] = useState();
+  const [googleId, setGoogleId] = useState();
+
+  const [chosenYear, setChosenYear] = useState(currentYear);
+  const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
+  const [chosenDate, setChosenDate] = useState();
 
   /*const bookingMatrix = {};
 
@@ -63,12 +76,32 @@ function App() {
     setSelectedTimeEnd(parseInt(time));
   }
 
+  function handleBooking() {
+    console.log(`
+    Selected activity: ${selectedActivity}
+    Selected date: ${chosenYear}-${monthNames.indexOf(chosenMonth)}-${chosenDate}
+    Book between: ${selectedTimeStart} - ${selectedTimeEnd}
+
+    Username: ${userName}
+    User email: ${userEmail}
+    Google ID: ${googleId}`);
+  }
+
   function responseGoogle(response) {
     setToken(response.accessToken);
     const userName = response.profileObj.givenName + ' ' + response.profileObj.familyName;
     const userEmail = response.profileObj.email;
+    const googleId = response.profileObj.googleId
     setUserName(userName);
+    sessionStorage.setItem('user', userName)
     setUserEmail(userEmail);
+    sessionStorage.setItem('email', userEmail)
+    setGoogleId(googleId);
+    sessionStorage.setItem('googleId', googleId)
+  }
+
+  function logout() {
+    console.log('logged out');
   }
 
   function GoogleLoginButton() {
@@ -83,14 +116,27 @@ function App() {
           isSignedIn={true} />
       )
     } else {
-      return null;
+      return (
+        <GoogleLogout 
+          clientId="1015056177817-7toba522dep62e09vj1oegf05k55ut44.apps.googleusercontent.com"
+          buttonText="Logout from Google"
+          onLogoutSuccess={logout}
+        />
+      )
     }
   }
 
   useEffect(() => {
-    console.log(!token);
     
-  })
+    const loggedInUser = sessionStorage.getItem("user");
+    const loggedInEmail = sessionStorage.getItem("email");
+    const loggedInGoogleId = sessionStorage.getItem("googleId");
+    if (loggedInUser) {
+        setUserName(loggedInUser);
+        setUserEmail(loggedInEmail);
+        setGoogleId(loggedInGoogleId);
+    }
+  }, []);
 
   return (
     <div className="booking-main">
@@ -129,7 +175,7 @@ function App() {
                     <button className="time-pick-btn" onClick={() => setSelectedTimeEnd(selectedTimeStart)}>1h</button>
                     <button className="time-pick-btn" onClick={(e) => handleTimeEndChange(e, selectedTimeStart + 1)}>2h</button>
                     <button className="time-pick-btn" onClick={(e) => handleTimeEndChange(e, selectedTimeStart + 2)}>3h</button>
-                    <button className="time-pick-btn bookit">Book it</button>
+                    <button className="time-pick-btn bookit" onClick={() => {handleBooking()}}>Book it</button>
                   </div>
                 </div>
               })}
@@ -138,7 +184,18 @@ function App() {
           )
       }) }
       </div>
-      {/*<Calendar />*/}
+      {<Calendar
+         monthNames={monthNames}
+         currentDate={currentDate}
+         currentMonth={currentMonth}
+         currentYear={currentYear}
+         chosenYear={chosenYear}
+         chosenMonth={chosenMonth}
+         chosenDate={chosenDate}
+         setChosenYear={setChosenYear}
+         setChosenMonth={setChosenMonth}
+         setChosenDate={setChosenDate}
+         />}
       {<GoogleLoginButton />}
     </div>
   );

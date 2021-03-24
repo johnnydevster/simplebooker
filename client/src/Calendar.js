@@ -2,32 +2,22 @@ import React, {useState, useEffect} from 'react';
 import YearPicker from './YearPicker';
 import MonthPicker from './MonthPicker';
 
-function Calendar() {
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-  ];
-
-  const currentDate = new Date().getDate();
-  const currentMonth = new Date().getMonth();
-  const currentYear = new Date().getFullYear();
+function Calendar(props) {
 
   const [showDropdown, setShowdropdown] = useState(false);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
-  const [chosenYear, setChosenYear] = useState(currentYear);
-  const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
-  const [chosenDate, setChosenDate] = useState();
 
   const getDaysInMonth = function(month, year) {
     return new Date(year, month, 0).getDate();
   };
 
   const yearList = [];
-  for (var i = currentYear; i <= currentYear + 10; i++) {
+  for (var i = props.currentYear; i <= props.currentYear + 10; i++) {
     yearList.push(i);
   }
   
   const dateArray = [];
-  for (var i = 1; i <= getDaysInMonth(monthNames.indexOf(chosenMonth) + 1, chosenYear); i++) { //replace with chosen month and year
+  for (var i = 1; i <= getDaysInMonth(props.monthNames.indexOf(props.chosenMonth) + 1, props.chosenYear); i++) { //replace with chosen month and year
     dateArray.push(i);
   }
 
@@ -39,21 +29,21 @@ function Calendar() {
     <div className="calendar-main">
       <div className="yearmonth-container">
         <YearPicker
-          chosenYear={chosenYear}
-          setChosenYear={setChosenYear}
-          setChosenDate={setChosenDate}
+          chosenYear={props.chosenYear}
+          setChosenYear={props.setChosenYear}
+          setChosenDate={props.setChosenDate}
           yearList={yearList}
           showYearDropdown={showYearDropdown}
           setShowYearDropdown={setShowYearDropdown} />
         <MonthPicker
-          monthNames={monthNames}
+          monthNames={props.monthNames}
           showDropdown={showDropdown}
           setShowdropdown={setShowdropdown}
-          chosenYear={chosenYear}
-          chosenMonth={chosenMonth}
-          setChosenYear={setChosenYear}
-          setChosenMonth={setChosenMonth}
-          setChosenDate={setChosenDate}
+          chosenYear={props.chosenYear}
+          chosenMonth={props.chosenMonth}
+          setChosenYear={props.setChosenYear}
+          setChosenMonth={props.setChosenMonth}
+          setChosenDate={props.setChosenDate}
         />
       </div>
       <div className="day-headers">
@@ -70,10 +60,10 @@ function Calendar() {
           return (
             <div className={
               `datenumbers
-              ${chosenDate === date ? ' highlight' : ''}
-              ${(date === currentDate && monthNames.indexOf(chosenMonth) === currentMonth && chosenYear === currentYear) ? ' todays-date' : ''}
-              ${(date < currentDate && monthNames.indexOf(chosenMonth) === currentMonth && chosenYear === currentYear) || (chosenYear <= currentYear && monthNames.indexOf(chosenMonth) < currentMonth) || chosenYear < currentYear ? 'passed-date' : ''}`
-            } onClick={(e) => {setChosenDate(parseInt(e.target.innerHTML, 10))}} >{date}</div>
+              ${props.chosenDate === date ? ' highlight' : ''}
+              ${(date === props.currentDate && props.monthNames.indexOf(props.chosenMonth) === props.currentMonth && props.chosenYear === props.currentYear) ? ' todays-date' : ''}
+              ${(date < props.currentDate && props.monthNames.indexOf(props.chosenMonth) === props.currentMonth && props.chosenYear === props.currentYear) || (props.chosenYear <= props.currentYear && props.monthNames.indexOf(props.chosenMonth) < props.currentMonth) || props.chosenYear < props.currentYear ? 'passed-date' : ''}`
+            } onClick={(e) => {props.setChosenDate(parseInt(e.target.innerHTML, 10))}} >{date}</div>
           )
         })}
       </div>
