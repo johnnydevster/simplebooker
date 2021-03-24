@@ -55,6 +55,9 @@ function App() {
   const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
   const [chosenDate, setChosenDate] = useState(currentDate);
 
+  const chosenDateFormatted = `${chosenYear}-${('0' + (monthNames.indexOf(chosenMonth) + 1)).slice(-2)}-${chosenDate}`
+  const queryString = `?activity=${selectedActivity}&date=${chosenDateFormatted}&timestart=${selectedTimeStart}&timeend=${selectedTimeEnd}&user=${userName}&useremail=${userEmail}&googleid=${googleId}`
+
   /*const bookingMatrix = {};
 
   -- Probably dont need this, but good way of populating an object --
@@ -85,19 +88,8 @@ function App() {
 
   function handleBooking(e) {
     e.stopPropagation();
-    console.log(`
-    Selected activity: ${selectedActivity}
-    Selected date: ${chosenYear}-${('0' + (monthNames.indexOf(chosenMonth) + 1)).slice(-2)}-${chosenDate}
-    Book between: ${selectedTimeStart} - ${selectedTimeEnd}
 
-    Username: ${userName}
-    User email: ${userEmail}
-    Google ID: ${googleId}`);
-
-    const chosenDateFormatted = `${chosenYear}-${('0' + (monthNames.indexOf(chosenMonth) + 1)).slice(-2)}-${chosenDate}`
-    console.log(chosenDateFormatted);
-
-    Axios.get(encodeURI(`http://localhost:3001/api/get?activity=${selectedActivity}&date=${chosenDateFormatted}&timestart=${selectedTimeStart}&timeend=${selectedTimeEnd}&user=${userName}&useremail=${userEmail}&googleid=${googleId}`)).then((result) => {
+    Axios.post(encodeURI(`http://localhost:3001/api/post${queryString}`)).then((result) => {
       console.log(result);
     }).catch((error) => {
       console.log(error);
