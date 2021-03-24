@@ -77,6 +77,12 @@ function App() {
     setSelectedTimeEnd(parseInt(time));
   }
 
+  function resetSelection() {
+    setSelectedActivity();
+    setSelectedTimeStart();
+    setSelectedTimeEnd();
+  }
+
   function handleBooking(e) {
     e.stopPropagation();
     console.log(`
@@ -91,12 +97,15 @@ function App() {
     const chosenDateFormatted = `${chosenYear}-${('0' + (monthNames.indexOf(chosenMonth) + 1)).slice(-2)}-${chosenDate}`
     console.log(chosenDateFormatted);
 
-    Axios.get(encodeURI(`http://localhost:3001/api/get?activity=${selectedActivity}&year=${chosenYear}&month=${monthNames.indexOf(chosenMonth) + 1}&date=${chosenDate}&timestart=${selectedTimeStart}&timeend=${selectedTimeEnd}&userName=${userName}&userEmail=${userEmail}&googleId=${googleId}`)).then((result) => {
+    Axios.get(encodeURI(`http://localhost:3001/api/get?activity=${selectedActivity}&date=${chosenDateFormatted}&timestart=${selectedTimeStart}&timeend=${selectedTimeEnd}&user=${userName}&useremail=${userEmail}&googleid=${googleId}`)).then((result) => {
       console.log(result);
     }).catch((error) => {
       console.log(error);
     });
+    resetSelection();
   }
+
+
 
   function responseGoogle(response) {
     setToken(response.accessToken);
@@ -206,6 +215,7 @@ function App() {
          setChosenYear={setChosenYear}
          setChosenMonth={setChosenMonth}
          setChosenDate={setChosenDate}
+         resetSelection={resetSelection}
          />}
       {<GoogleLoginButton />}
     </div>

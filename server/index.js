@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const pool = require('./db');
 
 app.use(express.json());
 app.use(cors());
@@ -12,21 +13,27 @@ app.get('/test', (req, res) => {
 app.get('/api/get', (req, res) => {
     const bookingInfo = {
         "activity": req.query.activity,
-        "year": req.query.year,
-        "month": req.query.month,
         "date": req.query.date,
         "timeStart": req.query.timestart,
         "timeEnd": req.query.timeend,
-        "userName": req.query.username,
+        "userName": req.query.user,
         "userEmail": req.query.useremail,
-        "googleId": req.query.googleId
+        "googleId": req.query.googleid
     }
     res.send(bookingInfo);
 })
 
+//Routes
+
+//Get all bookings
+
+//Create a booking
+
+//Update a booking
+
+//Delete a booking
+
+
 app.listen(3001, () => {
     console.log('Running on port 3001');
 });
-
-
-/*`http://localhost:3001/api/get?activity=${selectedActivity}?year=${chosenYear}?month=${monthNames.indexOf(chosenMonth) + 1}?date=${chosenDate}?timestart=${selectedTimeStart}?timeend=${selectedTimeEnd}?userName=${userName}?userEmail=${userEmail}?googleId=${googleId}`*/

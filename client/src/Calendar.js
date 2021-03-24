@@ -21,6 +21,11 @@ function Calendar(props) {
     dateArray.push(i);
   }
 
+  function handleDateChange(e) {
+    props.setChosenDate(parseInt(e.target.innerHTML, 10))
+    props.resetSelection();
+  }
+
   useEffect(() => {
     
   })
@@ -63,7 +68,7 @@ function Calendar(props) {
               ${props.chosenDate === date ? ' highlight' : ''}
               ${(date === props.currentDate && props.monthNames.indexOf(props.chosenMonth) === props.currentMonth && props.chosenYear === props.currentYear) ? ' todays-date' : ''}
               ${(date < props.currentDate && props.monthNames.indexOf(props.chosenMonth) === props.currentMonth && props.chosenYear === props.currentYear) || (props.chosenYear <= props.currentYear && props.monthNames.indexOf(props.chosenMonth) < props.currentMonth) || props.chosenYear < props.currentYear ? 'passed-date' : ''}`
-            } onClick={(e) => {props.setChosenDate(parseInt(e.target.innerHTML, 10))}} >{date}</div>
+            } onClick={(e) => {handleDateChange(e)}} >{date}</div>
           )
         })}
       </div>
