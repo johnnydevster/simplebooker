@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const keys = require("../client/config");
 const pool = require('./db');
+let user = {};
 
 app.use(express.json());
 app.use(cors());
@@ -10,7 +14,45 @@ app.get('/test', (req, res) => {
     res.send("<h1>Hello</h1>");
 })
 
+passport.serializeUser((user, cb) => {
+    cb(null, user);
+});
 
+passport.deserializeUser((user, cb) => {
+    cb(null, user);
+});
+
+passport.use(new GoogleStrategy({
+    clientID: keys.GOOGLE.clientID,
+    clientSecret: keys.GOOGLE.clientSecret,
+    callbackURL: "http://localhost:3001/auth/google/callback"
+}, (accessToken, refreshToken, profile, cb) => {
+    console.log(profile);
+    user = { ...profile };
+    console.log(cb(null, profile));
+    return cb(null, profile);
+}))
+
+app.use(passport.initialize());
+
+app.get("/auth/google", passport.authenticate("google", {
+    scope: ["profile", "email"]
+}))
+app.get("/auth/google/callback", passport.authenticate("google", (req, res) => {
+    console.log(res);
+    res.redirect("/user");
+}));
+
+app.get("/user", (req, res) => {
+    console.log("getting user data");
+    res.send(user);
+});
+
+app.get("/auth/logout", (req, res) => {
+    console.log("logging out");
+    user = {};
+    res.redirect("/");
+})
 
 //Routes
 
@@ -20,15 +62,6 @@ app.get('/test', (req, res) => {
 
 app.post('/api/post', async(req, res) => {
     try {
-        /*const bookingInfo = {
-            "activity": req.query.activity,
-            "date": req.query.date,
-            "timeStart": req.query.timestart,
-            "timeEnd": req.query.timeend,
-            "userName": req.query.user,
-            "userEmail": req.query.useremail,
-            "googleId": req.query.googleid
-        }*/
 
         const bookingInfo = [
             req.query.activity,
