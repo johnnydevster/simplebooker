@@ -1,64 +1,81 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');
+const path = require("path");
+const expressSession = require("express-session");
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const keys = require("../client/config");
+const Auth0Strategy = require("passport-auth0");
+const cors = require('cors');
 const pool = require('./db');
-let user = {};
+const authRouter = require("./auth");
+
+require("dotenv").config();
+
 
 app.use(express.json());
 app.use(cors());
 
-app.get('/test', (req, res) => {
-    res.send("<h1>Hello</h1>");
-})
+//Session Configuration
 
-passport.serializeUser((user, cb) => {
-    cb(null, user);
-});
+const session = {
+    secret: process.env.SESSION_SECRET,
+    cookie: {},
+    resave: false,
+    saveUninitialized: false
+};
 
-passport.deserializeUser((user, cb) => {
-    cb(null, user);
-});
+if (app.get("env") === "production") {
+    session.cookie.secure = true;
+}
 
-passport.use(new GoogleStrategy({
-    clientID: keys.GOOGLE.clientID,
-    clientSecret: keys.GOOGLE.clientSecret,
-    callbackURL: "http://localhost:3001/auth/google/callback"
-}, (accessToken, refreshToken, profile, cb) => {
-    console.log(profile);
-    user = { ...profile };
-    console.log(cb(null, profile));
-    return cb(null, profile);
-}))
+//Passport Configuration
 
+const strategy = new Auth0Strategy(
+    {
+      domain: process.env.AUTH0_DOMAIN,
+      clientID: process.env.AUTH0_CLIENT_ID,
+      clientSecret: process.env.AUTH0_CLIENT_SECRET,
+      callbackURL: process.env.AUTH0_CALLBACK_URL
+    },
+    function(accessToken, refreshToken, extraParams, profile, done) {
+      /**
+       * Access tokens are used to authorize users to an API
+       * (resource server)
+       * accessToken is the token to call the Auth0 API
+       * or a secured third-party API
+       * extraParams.id_token has the JSON Web Token
+       * profile has all the information from the user
+       */
+      return done(null, profile);
+    }
+  );
+
+//App Configuration
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(expressSession(session));
+
+passport.use(strategy);
 app.use(passport.initialize());
+app.use(passport.session());
 
-app.get("/auth/google", passport.authenticate("google", {
-    scope: ["profile", "email"]
-}))
-app.get("/auth/google/callback", passport.authenticate("google", (req, res) => {
-    console.log(res);
-    res.redirect("/user");
-}));
-
-app.get("/user", (req, res) => {
-    console.log("getting user data");
-    res.send(user);
+passport.serializeUser((user, done) => {
+    done(null, user);
 });
 
-app.get("/auth/logout", (req, res) => {
-    console.log("logging out");
-    user = {};
-    res.redirect("/");
-})
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});
 
-//Routes
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.isAuthenticated();
+    next();
+});
 
-//Get all bookings
+app.use("/", authRouter);
 
-//Create a booking
 
 app.post('/api/post', async(req, res) => {
     try {

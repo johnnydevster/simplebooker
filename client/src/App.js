@@ -4,6 +4,7 @@ import Calendar from './Calendar';
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
 import Axios from 'axios';
 
+/*
 function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));
 }
@@ -13,9 +14,12 @@ function getToken() {
   const userToken = JSON.parse(tokenString);
   return userToken;
 }
+*/
+
+Axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
 
 function App() {
-  const token = getToken();
+/*  const token = getToken();*/
 
   const timeStart = 6;
   const timeEnd = 22;
@@ -50,6 +54,7 @@ function App() {
   const [userName, setUserName] = useState();
   const [userEmail, setUserEmail] = useState();
   const [googleId, setGoogleId] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [chosenYear, setChosenYear] = useState(currentYear);
   const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
@@ -97,8 +102,30 @@ function App() {
     resetSelection();
   }
 
+  function handleLogin() {
+    Axios.get('http://localhost:3001/login').then((result) => {
+      console.log(result);
+    })
+  }
+
+  function handleLogout() {
+
+  }
+
+  function LoginButton() {
+    if (isAuthenticated) {
+      return (
+        <button onClick={() => handleLogout()}>Logout</button>
+      )
+    } else {
+      return (
+        <button onClick={() => handleLogin()}>Login</button>
+      )
+    }
+  }
 
 
+/*
   function responseGoogle(response) {
     setToken(response.accessToken);
     const userName = response.profileObj.givenName + ' ' + response.profileObj.familyName;
@@ -115,7 +142,9 @@ function App() {
   function logout() {
     console.log('logged out');
   }
+*/
 
+/*
   function GoogleLoginButton() {
     if (!token) {
       return (
@@ -137,6 +166,7 @@ function App() {
       )
     }
   }
+*/
 
   useEffect(() => {
     
@@ -209,7 +239,7 @@ function App() {
          setChosenDate={setChosenDate}
          resetSelection={resetSelection}
          />}
-      {<GoogleLoginButton />}
+      <LoginButton />
     </div>
   );
 }
