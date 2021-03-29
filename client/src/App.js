@@ -16,8 +16,6 @@ function getToken() {
 }
 */
 
-Axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
-
 function App() {
 /*  const token = getToken();*/
 
@@ -103,8 +101,14 @@ function App() {
   }
 
   function handleLogin() {
-    Axios.get('http://localhost:3001/login').then((result) => {
-      console.log(result);
+    const options = {
+      headers: {'Access-Control-Allow-Origin': '*'},
+      mode: 'cors'
+    }
+    Axios.get('http://localhost:3001/login', options).then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
     })
   }
 
