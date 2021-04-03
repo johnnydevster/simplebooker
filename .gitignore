@@ -2,7 +2,7 @@
 
 # dependencies
 client/node_modules
-client/config
+client/src/config.js
 client/.pnp
 client.pnp.js
 
