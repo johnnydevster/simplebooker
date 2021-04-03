@@ -1,23 +1,13 @@
 import './App.scss';
 import React, {useState, useEffect} from 'react';
 import Calendar from './Calendar';
-import {GoogleLogin, GoogleLogout} from 'react-google-login';
+import TwitterLogin from 'react-twitter-auth';
+import FacebookLogin from 'react-facebook-login';
+import { GoogleLogin } from 'react-google-login';
 import Axios from 'axios';
-
-/*
-function setToken(userToken) {
-  sessionStorage.setItem('token', JSON.stringify(userToken));
-}
-
-function getToken() {
-  const tokenString = sessionStorage.getItem('token');
-  const userToken = JSON.parse(tokenString);
-  return userToken;
-}
-*/
+import { GOOGLE } from './config.js';
 
 function App() {
-/*  const token = getToken();*/
 
   const timeStart = 6;
   const timeEnd = 22;
@@ -49,26 +39,42 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState();
   const [selectedTimeStart, setSelectedTimeStart] = useState();
   const [selectedTimeEnd, setSelectedTimeEnd] = useState(selectedTimeStart);
-  const [userName, setUserName] = useState();
-  const [userEmail, setUserEmail] = useState();
-  const [googleId, setGoogleId] = useState();
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState('');
 
   const [chosenYear, setChosenYear] = useState(currentYear);
   const [chosenMonth, setChosenMonth] = useState(monthNames[currentMonth]);
   const [chosenDate, setChosenDate] = useState(currentDate);
 
-  const chosenDateFormatted = `${chosenYear}-${('0' + (monthNames.indexOf(chosenMonth) + 1)).slice(-2)}-${chosenDate}`
-  const queryString = `?activity=${selectedActivity}&date=${chosenDateFormatted}&timestart=${selectedTimeStart}&timeend=${selectedTimeEnd}&user=${userName}&useremail=${userEmail}&googleid=${googleId}`
-
   /*const bookingMatrix = {};
 
-  -- Probably dont need this, but good way of populating an object --
+  -- Probably dont need  but good way of populating an object --
 
   for (let i of activities) {
     bookingMatrix[i] = bookableTimes;
   }
   */
+
+  function logout() {
+    setIsAuthenticated(false);
+    setToken('');
+    setUser(null);
+  }
+
+
+  function twitterResponse(e) {
+
+  }
+
+  function facebookResponse(e) {
+
+  }
+
+  function googleResponse(e) {
+
+  }
 
   function handleTimeEndChange(e, time) {
     e.stopPropagation();
@@ -90,99 +96,45 @@ function App() {
   }
 
   function handleBooking(e) {
-    e.stopPropagation();
-
-    Axios.post(encodeURI(`http://localhost:3001/api/post${queryString}`)).then((result) => {
-      console.log(result);
-    }).catch((error) => {
-      console.log(error);
-    });
-    resetSelection();
-  }
-
-  function handleLogin() {
-    const options = {
-      headers: {'Access-Control-Allow-Origin': '*'},
-      mode: 'cors'
-    }
-    Axios.get('http://localhost:3001/login', options).then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    })
-  }
-
-  function handleLogout() {
 
   }
-
-  function LoginButton() {
-    if (isAuthenticated) {
-      return (
-        <button onClick={() => handleLogout()}>Logout</button>
-      )
-    } else {
-      return (
-        <button onClick={() => handleLogin()}>Login</button>
-      )
-    }
-  }
-
-
-/*
-  function responseGoogle(response) {
-    setToken(response.accessToken);
-    const userName = response.profileObj.givenName + ' ' + response.profileObj.familyName;
-    const userEmail = response.profileObj.email;
-    const googleId = response.profileObj.googleId
-    setUserName(userName);
-    sessionStorage.setItem('user', userName)
-    setUserEmail(userEmail);
-    sessionStorage.setItem('email', userEmail)
-    setGoogleId(googleId);
-    sessionStorage.setItem('googleId', googleId)
-  }
-
-  function logout() {
-    console.log('logged out');
-  }
-*/
-
-/*
-  function GoogleLoginButton() {
-    if (!token) {
-      return (
-        <GoogleLogin
-          clientId="1015056177817-7toba522dep62e09vj1oegf05k55ut44.apps.googleusercontent.com"
-          buttonText="Login with Google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={'single_host_origin'}
-          isSignedIn={true} />
-      )
-    } else {
-      return (
-        <GoogleLogout 
-          clientId="1015056177817-7toba522dep62e09vj1oegf05k55ut44.apps.googleusercontent.com"
-          buttonText="Logout from Google"
-          onLogoutSuccess={logout}
-        />
-      )
-    }
-  }
-*/
 
   useEffect(() => {
     
-    const loggedInUser = sessionStorage.getItem("user");
-    const loggedInEmail = sessionStorage.getItem("email");
-    const loggedInGoogleId = sessionStorage.getItem("googleId");
-    if (loggedInUser) {
-        setUserName(loggedInUser);
-        setUserEmail(loggedInEmail);
-        setGoogleId(loggedInGoogleId);
-    }
   }, []);
+
+  const authenticatedContent = !!isAuthenticated ?
+    (
+      <div>
+        <p>Authenticated</p>
+        <div>
+          {user.email}
+        </div>
+        <div>
+          <button onClick={logout} className="button">
+            Log out
+                        </button>
+        </div>
+      </div>
+    ) :
+    (
+      <div>
+        <TwitterLogin loginUrl="http://localhost:3000/api/v1/auth/twitter"
+          onFailure={twitterResponse} onSuccess={twitterResponse}
+          requestTokenUrl="http://localhost:3000/api/v1/auth/twitter/reverse" />
+        <FacebookLogin
+          appId="XXXXXXXXXX"
+          autoLoad={false}
+          fields="name,email,picture"
+          callback={facebookResponse} />
+        <GoogleLogin
+          clientId="XXXXXXXXXX"
+          buttonText="Login"
+          onSuccess={googleResponse}
+          onFailure={googleResponse}
+        />
+      </div>
+    );
 
   return (
     <div className="booking-main">
@@ -243,7 +195,7 @@ function App() {
          setChosenDate={setChosenDate}
          resetSelection={resetSelection}
          />}
-      <LoginButton />
+      {authenticatedContent}
     </div>
   );
 }
