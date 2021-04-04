@@ -7,6 +7,8 @@ import { GoogleLogin } from 'react-google-login';
 import Axios from 'axios';
 import { GOOGLE } from './config.js';
 
+
+
 function App() {
 
   const timeStart = 6;
@@ -72,8 +74,51 @@ function App() {
 
   }
 
-  function googleResponse(e) {
+  function googleResponse(response) {
 
+    //This code probably doesnt work with Axios. Redo later.
+
+    console.log(response)
+    /*
+    const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type: 'application/json'});
+    const options = {
+      method: 'POST',
+      body: tokenBlob,
+      mode: 'cors',
+      cache: 'default'
+    };
+    Axios.post('http://localhost:3001/api/v1/auth/google', options).then(response => {
+      const token = response.headers.get('x-auth-token');
+      response.json().then(user => {
+        if (token) {
+          setIsAuthenticated(true);
+          setUser(user);
+          setToken(token);
+        }
+      })
+    })
+    */
+    const config = {
+      headers: { Authorization: `Bearer ${response.tokenId}` }
+    }
+    const bodyParameters = {
+      key: 'value'
+    };
+
+    Axios.post(
+      'http://localhost:3001/api/auth/google',
+      bodyParameters,
+      config
+      ).then((res) => {
+      console.log(res);
+    }, (error) => {
+      console.log(error);
+    });
+
+  }
+
+  function onFailure(error) {
+    console.log(error);
   }
 
   function handleTimeEndChange(e, time) {
@@ -99,8 +144,9 @@ function App() {
 
   }
 
+
   useEffect(() => {
-    
+    console.log(GOOGLE.clientID)
   }, []);
 
   const authenticatedContent = !!isAuthenticated ?
@@ -128,10 +174,10 @@ function App() {
           fields="name,email,picture"
           callback={facebookResponse} />
         <GoogleLogin
-          clientId="XXXXXXXXXX"
+          clientId={GOOGLE.clientID}
           buttonText="Login"
           onSuccess={googleResponse}
-          onFailure={googleResponse}
+          onFailure={onFailure}
         />
       </div>
     );
@@ -196,6 +242,7 @@ function App() {
          resetSelection={resetSelection}
          />}
       {authenticatedContent}
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </div>
   );
 }
